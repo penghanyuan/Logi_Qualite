@@ -57,10 +57,10 @@ public class Stack implements Subject {
 			throw new Exception("stack is empty!");
 		}
 		int result = this.list.get(0);
+		list.remove(0);
 		if (this.list.size() < 5) {
 			this.stackBaseChanged();
 		}
-		list.remove(0);
 		this.stackSummitChanged();
 
 		return result;
@@ -69,9 +69,13 @@ public class Stack implements Subject {
 	/**
 	 * 
 	 * @return summit
+	 * @throws Exception 
 	 */
-	public int getSummit() {
-		return this.list.get(0);
+	public int getSummit() throws Exception {
+		if (!this.list.isEmpty())
+			return this.list.get(0);
+		else
+			throw new Exception("stack is empty!");
 	}
 
 	public void push(int value) {
@@ -84,7 +88,7 @@ public class Stack implements Subject {
 
 	public List<Integer> getLastFive() {
 		List<Integer> result = new ArrayList<Integer>();
-		
+
 		for (int i = this.list.size() - 5 < 0 ? 0 : this.list.size() - 5; i < this.list.size(); i++) {
 			result.add(this.list.get(i));
 		}

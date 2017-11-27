@@ -17,7 +17,7 @@ public class CommandController {
 	}
 
 	public void parserCommand(String command) {
-		Pattern pattern = Pattern.compile("(PUSH\\s)(\\d*)");
+		Pattern pattern = Pattern.compile("(PUSH\\s)(-?\\d*)");
 		Matcher matcher = pattern.matcher(command);
 
 		if (command.equalsIgnoreCase("CREATE")) {
