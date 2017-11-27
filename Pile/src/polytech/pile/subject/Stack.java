@@ -3,17 +3,30 @@ package polytech.pile.subject;
 import java.util.ArrayList;
 import java.util.List;
 
-import polytech.pile.observers.View;
+import polytech.pile.observers.Observer;
 import polytech.pile.observers.ViewBase;
 import polytech.pile.observers.ViewSummit;
 
-public class Stack {
+public class Stack implements Subject {
 	private List<Integer> list;
 
-	private List<View> observers;
+	private List<Observer> observers;
 
 	public Stack() {
 		this.list = new ArrayList<Integer>();
+		this.observers = new ArrayList<Observer>();
+	}
+
+	/**
+	 * notify observers
+	 * 
+	 * @param
+	 */
+	@Override
+	public void notifyObserver(List<Observer> observers) {
+		for (Observer observer : observers) {
+			observer.update();
+		}
 	}
 
 	public void addObservers(ViewSummit viewSummit, ViewBase viewBase) {
@@ -26,27 +39,17 @@ public class Stack {
 	}
 
 	/**
-	 * notify observers
-	 * 
-	 * @param type
-	 *            0=>summitObserver, 1=>baseObserver
-	 */
-	public void notifyObserver(int type) {
-		this.observers.get(type).update();
-	}
-
-	/**
 	 * 
 	 */
 	public void stackSummitChanged() {
-		this.notifyObserver(0);
+		this.notifyObserver(this.observers.subList(0, 1));
 	}
 
 	/**
 	 * 
 	 */
 	public void stackBaseChanged() {
-		this.notifyObserver(1);
+		this.notifyObserver(this.observers.subList(1, 2));
 	}
 
 	public int pop() throws Exception {
@@ -54,7 +57,7 @@ public class Stack {
 			throw new Exception("stack is empty!");
 		}
 		int result = this.list.get(0);
-		if (this.list.size() <= 5) {
+		if (this.list.size() < 5) {
 			this.stackBaseChanged();
 		}
 		list.remove(0);
@@ -72,19 +75,20 @@ public class Stack {
 	}
 
 	public void push(int value) {
-		if (this.list.size() < 5) {
+		this.list.add(0, value);
+		if (this.list.size() <= 5) {
 			this.stackBaseChanged();
 		}
-		this.list.add(0, value);
 		this.stackSummitChanged();
 	}
 
 	public List<Integer> getLastFive() {
 		List<Integer> result = new ArrayList<Integer>();
-
-		for (int i = this.list.size() - 5; i < this.list.size() && i >= 0; i++) {
-			result.add(i);
+		
+		for (int i = this.list.size() - 5 < 0 ? 0 : this.list.size() - 5; i < this.list.size(); i++) {
+			result.add(this.list.get(i));
 		}
 		return result;
 	}
+
 }
