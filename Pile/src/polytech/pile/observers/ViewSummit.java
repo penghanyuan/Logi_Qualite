@@ -6,42 +6,56 @@ import javax.swing.*;
 
 import polytech.pile.subject.Stack;
 
+/**
+ * 
+ * @author Peng Hanyuan & Wang Tianxue
+ *
+ */
 public class ViewSummit extends JFrame implements Observer {
 
-	private Stack stack;
-	private Integer data;
-	private JLabel jl;
+	private Stack stack; // the object Stack
+	private List<Integer> data; // the list of 5 integers
+	private JLabel myLabel;
 	private JPanel myPane;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param stack
+	 */
 	public ViewSummit(Stack stack) {
-		super();
+		super("Summit");
 		this.stack = stack;
 
-		setSize(400, 450);
-		setLocationRelativeTo(null);
+		setSize(400, 200);
+		setLocation(100, 300);
 		myPane = new JPanel();
 		setContentPane(myPane);
-		jl = new JLabel();
-		myPane.add(jl);
+		myLabel = new JLabel();
+		myPane.add(myLabel);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 
+	/**
+	 * Function for displaying the summit of the stack
+	 */
 	@Override
 	public void display() {
-		System.out.println("The summit: " + this.data.toString());
-		jl.setText("The summit: " + this.data.toString());
+		if (!data.isEmpty()) {
+			myLabel.setText("The summit: " + this.data.get(0));
+		} else {
+			myLabel.setText("An empty stack !");
+		}
 	}
 
+	/**
+	 * Function for updating the stack
+	 */
 	@Override
 	public void update() {
-		try {
-			this.data = this.stack.getSummit();
-			this.display();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		this.data = this.stack.getList();
+		this.display();
 	}
 
 }

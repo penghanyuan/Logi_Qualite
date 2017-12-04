@@ -7,49 +7,51 @@ import polytech.pile.observers.Observer;
 import polytech.pile.observers.ViewBase;
 import polytech.pile.observers.ViewSummit;
 
+/**
+ * 
+ * @author Peng Hanyuan & Wang Tianxue
+ *
+ */
 public class Stack implements Subject {
-	private List<Integer> list;
+	private List<Integer> list; // the list of integers
+	private List<Observer> observers; // the list of observers
 
-	private List<Observer> observers;
-
+	/**
+	 * Constructor
+	 */
 	public Stack() {
 		this.list = new ArrayList<Integer>();
 		this.observers = new ArrayList<Observer>();
 	}
 
 	/**
-	 * notify observers
+	 * Function for notifying observers
 	 * 
 	 * @param
 	 */
 	@Override
-	public void notifyObserver(List<Observer> observers) {
-		for (Observer observer : observers) {
+	public void notifyObserver() {
+		for (Observer observer : this.observers) {
 			observer.update();
 		}
 	}
 
+	/**
+	 * Function for adding observer viewSummit and viewBase
+	 * 
+	 * @param viewSummit
+	 * @param viewBase
+	 */
 	public void addObservers(ViewSummit viewSummit, ViewBase viewBase) {
 		this.observers.add(viewSummit);
 		this.observers.add(viewBase);
 	}
 
-	public void removeObserver(int index) {
-
-	}
-
 	/**
-	 * 
+	 * Function f
 	 */
-	public void stackSummitChanged() {
-		this.notifyObserver(this.observers.subList(0, 1));
-	}
-
-	/**
-	 * 
-	 */
-	public void stackBaseChanged() {
-		this.notifyObserver(this.observers.subList(1, 2));
+	public void stackChanged() {
+		this.notifyObserver();
 	}
 
 	public int pop() throws Exception {
@@ -59,40 +61,25 @@ public class Stack implements Subject {
 		int result = this.list.get(0);
 		list.remove(0);
 		if (this.list.size() < 5) {
-			this.stackBaseChanged();
+			this.stackChanged();
 		}
-		this.stackSummitChanged();
+		this.stackChanged();
 
 		return result;
 	}
 
-	/**
-	 * 
-	 * @return summit
-	 * @throws Exception 
-	 */
-	public int getSummit() throws Exception {
-		if (!this.list.isEmpty())
-			return this.list.get(0);
-		else
-			throw new Exception("stack is empty!");
+	public List<Integer> getList() {
+		return this.list;
 	}
 
 	public void push(int value) {
 		this.list.add(0, value);
-		if (this.list.size() <= 5) {
-			this.stackBaseChanged();
-		}
-		this.stackSummitChanged();
+		this.stackChanged();
 	}
 
-	public List<Integer> getLastFive() {
-		List<Integer> result = new ArrayList<Integer>();
-
-		for (int i = this.list.size() - 5 < 0 ? 0 : this.list.size() - 5; i < this.list.size(); i++) {
-			result.add(this.list.get(i));
-		}
-		return result;
+	public void clear() {
+		this.list.clear();
+		this.stackChanged();
 	}
 
 }
