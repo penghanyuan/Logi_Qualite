@@ -1,5 +1,6 @@
 package polytech.pile.observers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -20,6 +21,7 @@ public class ViewBase extends JFrame implements Observer {
 	private List<Integer> data; // the list of 5 integers
 	private JLabel myLabel;
 	private JPanel myPane;
+	int j = 0;
 
 	/**
 	 * Constructor
@@ -29,6 +31,7 @@ public class ViewBase extends JFrame implements Observer {
 	public ViewBase(Stack stack) {
 		super("Last Five");
 		this.stack = stack;
+		this.data = new ArrayList<Integer>();
 
 		setSize(400, 200);
 		setLocation(100, 100);
@@ -45,11 +48,13 @@ public class ViewBase extends JFrame implements Observer {
 	 */
 	@Override
 	public void display() {
-		String result = "[";
-		for (int i = this.data.size() - 5 < 0 ? 0 : this.data.size() - 5; i < this.data.size(); i++) {
+
+		String result = "The last five: [";
+		for (int i = 0; i < this.data.size(); i++) {
+
 			result += this.data.get(i) + " ";
 		}
-		result += "]";
+		result += "] ";
 		myLabel.setText(result);
 	}
 
@@ -58,16 +63,34 @@ public class ViewBase extends JFrame implements Observer {
 	 */
 	@Override
 	public void update() {
-		int j = 0;
-		//需要改一下更改条件
+		if (lastFiveChange()) {
+			List<Integer> lastFive = new ArrayList<Integer>();
+			for (int i = this.stack.getList().size() - 5 < 0 ? 0 : this.stack.getList().size() - 5; i < this.stack
+					.getList().size(); i++) {
+				lastFive.add(this.stack.getList().get(i));
+			}
+			this.data = lastFive;
+			this.display();
+		}
+
+	}
+
+	private boolean lastFiveChange() {
+		List<Integer> lastFive = new ArrayList<Integer>();
 		for (int i = this.stack.getList().size() - 5 < 0 ? 0 : this.stack.getList().size() - 5; i < this.stack.getList()
 				.size(); i++) {
-			if (this.data.get(j) != this.stack.getList().get(i)) {
-				this.data.set(j, this.stack.getList().get(i));
-				this.display();
-			}
-			j++;
+			lastFive.add(this.stack.getList().get(i));
 		}
+		System.out.println(lastFive);
+		if (lastFive.isEmpty()) {
+			return true;
+		}
+		for (int i = 0; i < lastFive.size(); i++) {
+			if (this.data.isEmpty() || lastFive.get(i) != this.data.get(i)) {
+				return true;
+			}
+		}
+		return false;
 
 	}
 

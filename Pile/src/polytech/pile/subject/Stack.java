@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import polytech.pile.observers.Observer;
-import polytech.pile.observers.ViewBase;
 import polytech.pile.observers.ViewSummit;
 
 /**
@@ -42,15 +41,16 @@ public class Stack implements Subject {
 	 * @param viewSummit
 	 * @param viewBase
 	 */
-	public void addObservers(ViewSummit viewSummit, ViewBase viewBase) {
-		this.observers.add(viewSummit);
-		this.observers.add(viewBase);
+	@Override
+	public void addObservers(Observer view) {
+		this.observers.add(view);
 	}
 
 	/**
 	 * Function f
 	 */
-	public void stackChanged() {
+	@Override
+	public void statusChanged() {
 		this.notifyObserver();
 	}
 
@@ -60,10 +60,7 @@ public class Stack implements Subject {
 		}
 		int result = this.list.get(0);
 		list.remove(0);
-		if (this.list.size() < 5) {
-			this.stackChanged();
-		}
-		this.stackChanged();
+		this.statusChanged();
 
 		return result;
 	}
@@ -74,12 +71,12 @@ public class Stack implements Subject {
 
 	public void push(int value) {
 		this.list.add(0, value);
-		this.stackChanged();
+		this.statusChanged();
 	}
 
 	public void clear() {
 		this.list.clear();
-		this.stackChanged();
+		this.statusChanged();
 	}
 
 }

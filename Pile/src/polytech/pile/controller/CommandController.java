@@ -37,8 +37,9 @@ public class CommandController {
 	public void createStack() {
 		if (this.stack == null) {
 			this.stack = new Stack();
-			this.stack.addObservers(new ViewSummit(this.stack), new ViewBase(this.stack));
-			System.out.println("Created!");
+			this.stack.addObservers(new ViewSummit(this.stack));
+			this.stack.addObservers(new ViewBase(this.stack));
+			System.out.println("Stack Created!");
 		} else {
 			System.out.println("Stack exists!");
 		}
@@ -57,9 +58,12 @@ public class CommandController {
 		Pattern pattern = Pattern.compile("((?i)PUSH\\s)(-?\\d*)");
 		Matcher matcher = pattern.matcher(command);
 
-		if (command.equalsIgnoreCase("CREATE")) {
+		// if (command.equalsIgnoreCase("CREATE")) {
+		// this.createStack();
+		// } else
+		if (this.stack == null)
 			this.createStack();
-		} else if (command.equalsIgnoreCase("POP")) {
+		if (command.equalsIgnoreCase("POP")) {
 			try {
 				this.stack.pop();
 			} catch (Exception e) {
