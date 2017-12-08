@@ -8,6 +8,7 @@ import polytech.pile.view.ViewCommand;
  */
 public class App {
 	/**
+	 * Main function of the application
 	 * 
 	 * @param args
 	 */

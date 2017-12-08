@@ -7,6 +7,7 @@ import javax.swing.*;
 import polytech.pile.subject.Stack;
 
 /**
+ * View of the summit in the stack
  * 
  * @author Peng Hanyuan & Wang Tianxue
  *
@@ -27,6 +28,7 @@ public class ViewSummit extends JFrame implements Observer {
 		super("Summit");
 		this.stack = stack;
 
+		/* initialiser the window*/
 		setSize(400, 200);
 		setLocation(100, 300);
 		myPane = new JPanel();

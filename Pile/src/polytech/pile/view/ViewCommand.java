@@ -13,10 +13,20 @@ import polytech.pile.observers.ViewBase;
 import polytech.pile.observers.ViewSummit;
 import polytech.pile.subject.Stack;
 
+/**
+ * View of command
+ * 
+ * @author Peng Hanyuan & Wang Tianxue
+ *
+ */
 public class ViewCommand extends JFrame{
 
 	Stack stack;
 
+	/**
+	 * Function for inputting the command line
+	 * 
+	 */
 	public void input() {
 		String command;
 		Scanner scanner = new Scanner(System.in);

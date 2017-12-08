@@ -7,6 +7,7 @@ import polytech.pile.observers.Observer;
 import polytech.pile.observers.ViewSummit;
 
 /**
+ * Classe Stack
  * 
  * @author Peng Hanyuan & Wang Tianxue
  *
@@ -47,13 +48,18 @@ public class Stack implements Subject {
 	}
 
 	/**
-	 * Function f
+	 * Function for notifying the oberser when the status are changed
 	 */
 	@Override
 	public void statusChanged() {
 		this.notifyObserver();
 	}
 
+	/**
+	 * Function for popping an element from the stack
+	 * 
+	 * @return the popped element
+	 */
 	public int pop() throws Exception {
 		if (this.list.isEmpty()) {
 			throw new Exception("stack is empty!");
@@ -65,15 +71,29 @@ public class Stack implements Subject {
 		return result;
 	}
 
+	/**
+	 * Function for getting all the elements of the stack
+	 *
+	 * @return the list of all the elements of stack
+	 */
 	public List<Integer> getList() {
 		return this.list;
 	}
 
+	/**
+	 * Function for pushing un element into the stack
+	 *
+	 * @param value the pushed element 
+	 */
 	public void push(int value) {
 		this.list.add(0, value);
 		this.statusChanged();
 	}
 
+	/**
+	 * Function for clearing all the elements of the stack
+	 *
+	 */
 	public void clear() {
 		this.list.clear();
 		this.statusChanged();

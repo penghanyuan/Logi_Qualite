@@ -18,15 +18,19 @@ import polytech.pile.observers.ViewSummit;
 import polytech.pile.subject.Stack;
 
 /**
- * 
+ * The controller of command
+ *
  * @author Peng Hanyuan & Wang Tianxue
  *
  */
 public class CommandController {
 
 	Stack stack; // the object Stack
-	List<String> log;
+	List<String> log; // the list of logs
 
+	/**
+	 * Constructor
+	 */
 	public CommandController() {
 		log = new ArrayList<String>();
 	}
@@ -48,14 +52,13 @@ public class CommandController {
 	/**
 	 * Function for parsing the input command line
 	 * 
-	 * @param command
-	 *            the input command line
+	 * @param command the input command line
 	 */
 	public void parserCommand(String command) {
-		SimpleDateFormat df = new SimpleDateFormat("dd/M/yyyy HH:mm:ss");
-		String date = df.format(new Date(System.currentTimeMillis()));
+		SimpleDateFormat df = new SimpleDateFormat("dd/M/yyyy HH:mm:ss"); // set the format of date
+		String date = df.format(new Date(System.currentTimeMillis())); // get current time
 
-		Pattern pattern = Pattern.compile("((?i)PUSH\\s)(-?\\d*)");
+		Pattern pattern = Pattern.compile("((?i)PUSH\\s)(-?\\d*)"); 
 		Matcher matcher = pattern.matcher(command);
 
 		// if (command.equalsIgnoreCase("CREATE")) {
@@ -63,26 +66,26 @@ public class CommandController {
 		// } else
 		if (this.stack == null)
 			this.createStack();
-		if (command.equalsIgnoreCase("POP")) {
+		if (command.equalsIgnoreCase("POP")) { // the case of 'POP'
 			try {
 				this.stack.pop();
 			} catch (Exception e) {
 				System.out.println("Can't do POP. Cause:" + e.getMessage());
 			}
-		} else if (command.equalsIgnoreCase("CLEAR")) {
+		} else if (command.equalsIgnoreCase("CLEAR")) { // the case of 'CLEAR'
 			this.stack.clear();
 		} else if (matcher.find()) {
-			int value = Integer.parseInt(matcher.group(2));
+			int value = Integer.parseInt(matcher.group(2)); // the case of 'PUSH'
 			this.stack.push(value);
-		} else if (command.equalsIgnoreCase("QUIT")) {
+		} else if (command.equalsIgnoreCase("QUIT")) { // the case of 'QUIT'
 			log.add(date + " " + command);
-			this.outputLog();
+			this.outputLog(); // output the logs before quiting
 			System.exit(0);
 		} else {
 			System.out.println("Command doesn't exist !");
 			help();
 		}
-		log.add(date + " " + command);
+		log.add(date + " " + command); // add the date and the command into the list of logs
 	}
 
 	/**
@@ -99,14 +102,16 @@ public class CommandController {
 		System.out.println("#################################################");
 	}
 
+	/**
+	 * Function for outputing the logs into the file
+	 */
 	public void outputLog() {
 
 		File file = new File("Log_Pile.txt");
 		if (!file.exists()) {
 			try {
-				file.createNewFile();
+				file.createNewFile(); // create a new file
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -117,7 +122,7 @@ public class CommandController {
 			for (String s : log) {
 				s += "\n";
 				byte b[] = s.getBytes();
-				os.write(b, 0, s.length());
+				os.write(b, 0, s.length()); // write logs into the file
 			}
 			os.close();
 		} catch (FileNotFoundException e) {

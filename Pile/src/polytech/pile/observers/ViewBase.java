@@ -75,23 +75,29 @@ public class ViewBase extends JFrame implements Observer {
 
 	}
 
+
+	/**
+	 * Function for updating the stack
+	 * @return the status of the changement de last five elements
+	 */
 	private boolean lastFiveChange() {
 		List<Integer> lastFive = new ArrayList<Integer>();
-		for (int i = this.stack.getList().size() - 5 < 0 ? 0 : this.stack.getList().size() - 5; i < this.stack.getList()
-				.size(); i++) {
+		for (int i = this.stack.getList().size() - 5 < 0 ? 0 : this.stack.getList().size() - 5; 
+				i < this.stack.getList().size(); i++) {
 			lastFive.add(this.stack.getList().get(i));
 		}
 		System.out.println(lastFive);
 		if (lastFive.isEmpty()) {
 			return true;
 		}
+
+		/* to check if there is a changement in the last five elements*/
 		for (int i = 0; i < lastFive.size(); i++) {
 			if (this.data.isEmpty() || lastFive.get(i) != this.data.get(i)) {
 				return true;
 			}
 		}
 		return false;
-
 	}
 
 }
